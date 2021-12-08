@@ -17,64 +17,43 @@ fn get_ox_most_popular(strings: &Vec<&String>, pos: usize) -> char {
     }
 }
 
-fn get_next_oxygen_approximation<'a>(strings: &Vec<&'a String>, pos: usize) -> Vec<&'a String> {
-    let f = get_ox_most_popular(strings, pos);
+fn get_co2_most_popular(strings: &Vec<&String>, pos: usize) -> char {
+    match get_ox_most_popular(strings,pos)  {
+        '0' => '1',
+        '1' => '0',
+        _ => panic!("waaat"),
+    }
+}
+
+fn get_next_approximation<'a>(fun: fn(&Vec<&'a String>, usize) -> char, strings: &Vec<&'a String>, pos: usize) -> Vec<&'a String> {
+    let f = fun(strings, pos);
     let answer: Vec<&String> = strings
         .iter()
         .filter(|s| s.chars().nth(pos).unwrap() == f)
         .map(|s| *s)
         .collect();
     answer
+}
+
+fn get_answer<'a>(fun: fn(&Vec<&'a String>, usize) -> char, strings: &Vec<&'a String> ) -> &'a String {
+    let len = strings[0].len();
+    let mut aprox: Vec<&'a String> = strings.to_vec();
+    for i in 0..len {
+        aprox = get_next_approximation(fun,&aprox, i);
+        if aprox.len() == 1 {
+            break;
+        }
+    }
+    aprox[0]
 }
 
 fn get_oxygen<'a>(strings: &Vec<&'a String>) -> &'a String {
-    let len = strings[0].len();
-    let mut aprox: Vec<&'a String> = strings.to_vec();
-    for i in 0..len {
-        aprox = get_next_oxygen_approximation(&aprox, i);
-        if aprox.len() == 1 {
-            break;
-        }
-    }
-    aprox[0]
+    get_answer(get_ox_most_popular, strings)
 }
 
-fn get_co2_most_popular(strings: &Vec<&String>, pos: usize) -> char {
-    let mut counter = 0;
-    for s in strings {
-        counter += match s.chars().nth(pos).unwrap() {
-            '1' => 1,
-            '0' => 0,
-            _ => panic!("waaat"),
-        }
-    }
-    if counter < (strings.len() - counter) {
-        '1'
-    } else {
-        '0'
-    }
-}
-
-fn get_next_co2_approximation<'a>(strings: &Vec<&'a String>, pos: usize) -> Vec<&'a String> {
-    let f = get_co2_most_popular(strings, pos);
-    let answer: Vec<&String> = strings
-        .iter()
-        .filter(|s| s.chars().nth(pos).unwrap() == f)
-        .map(|s| *s)
-        .collect();
-    answer
-}
 
 fn get_co2<'a>(strings: &Vec<&'a String>) -> &'a String {
-    let len = strings[0].len();
-    let mut aprox: Vec<&'a String> = strings.to_vec();
-    for i in 0..len {
-        aprox = get_next_co2_approximation(&aprox, i);
-        if aprox.len() == 1 {
-            break;
-        }
-    }
-    aprox[0]
+    get_answer(get_co2_most_popular, strings)
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
