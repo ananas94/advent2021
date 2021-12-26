@@ -14,6 +14,14 @@ Well, it's day12 and I started fighting with borrow checker...
 
 TODO:
 
+CLEAN UP EVERYTHING:
+
+make it readable!
+
+merge \_1 and \_2 dirs into single solution
+
+Probably, include solution texts to subdirs
+
 - ~~day3_2: pass function as argument instead of two different functions, that differ only by filter~~
 - day7_1: look for some formal proof about median idea
 - day7_2: look for some formal proof about average idea and why answer is average-1
