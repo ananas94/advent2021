@@ -12,7 +12,7 @@ Main problem so far(day8) is parsing input and transforming types. Well.. it des
 
 Well, it's day12 and I started fighting with borrow checker...
 
-TODO:
+TODO(or not):
 
 CLEAN UP EVERYTHING:
 
